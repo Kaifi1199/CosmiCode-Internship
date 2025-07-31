@@ -5,10 +5,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import os
-st.write("📁 Current working directory:", os.getcwd())
-st.write("📄 Files available:", os.listdir())
-
 # Load model & scaler
 with open("heart_model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
