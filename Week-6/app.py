@@ -5,34 +5,30 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ----------------------
+import os
+st.write("📁 Current working directory:", os.getcwd())
+st.write("📄 Files available:", os.listdir())
+
 # Load model & scaler
-# ----------------------
 with open("heart_model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
 with open("scaler.pkl", "rb") as scaler_file:
     scaler = pickle.load(scaler_file)
 
-# ----------------------
 # Load dataset
-# ----------------------
 @st.cache_data
 def load_data():
     return pd.read_csv("heart.csv")
 
 df = load_data()
 
-# ----------------------
 # Streamlit App Layout
-# ----------------------
 st.set_page_config(page_title="Heart Disease Predictor", layout="centered")
 st.title("💓 Heart Disease Prediction App")
 st.markdown("Enter the following patient details to predict the presence of heart disease.")
 
-# ----------------------
 # Input Fields
-# ----------------------
 age = st.number_input("Age", min_value=1, max_value=120, value=45)
 sex = st.selectbox("Sex", options=[0, 1], format_func=lambda x: "Female" if x == 0 else "Male")
 cp = st.selectbox("Chest Pain Type (cp)", [0, 1, 2, 3])
@@ -47,9 +43,7 @@ slope = st.selectbox("Slope of ST Segment (slope)", [0, 1, 2])
 ca = st.selectbox("Number of Major Vessels Colored by Fluoroscopy (ca)", [0, 1, 2, 3])
 thal = st.selectbox("Thalassemia (thal)", [0, 1, 2, 3])
 
-# ----------------------
 # Prediction
-# ----------------------
 if st.button("Predict"):
     input_data = np.array([[age, sex, cp, trestbps, chol, fbs, restecg,
                             thalach, exang, oldpeak, slope, ca, thal]])
@@ -63,9 +57,7 @@ if st.button("Predict"):
     else:
         st.success(f"✅ **No Heart Disease** with a probability of {1 - probability:.2f}.")
 
-# ----------------------
 # Feature Description (Centered)
-# ----------------------
 with st.expander("📘 Click to view feature descriptions"):
     st.markdown("""
     <div style='text-align: center;'>
@@ -96,9 +88,7 @@ with st.expander("📘 Click to view feature descriptions"):
     """, unsafe_allow_html=True)
 
 
-# ----------------------
 # Sidebar - Visualizations
-# ----------------------
 st.sidebar.title("📊 Visualizations")
 
 # Target distribution
@@ -116,9 +106,7 @@ if st.sidebar.checkbox("Show Correlation Heatmap"):
     sns.heatmap(df.corr(), annot=True, cmap='coolwarm', fmt=".2f", ax=ax2)
     st.pyplot(fig2)
 
-# ----------------------
 # Feature Distribution (Dropdown Below Description)
-# ----------------------
 selected_feature = st.sidebar.selectbox(
     "📈 Select a feature to view its distribution",
     options=['', 'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg',
