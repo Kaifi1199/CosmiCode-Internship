@@ -74,7 +74,3 @@ This Streamlit web app predicts the likelihood of a person having heart disease 
 ## 👨‍⚕️ Disclaimer
 
 This project is for **educational purposes only**. It should **not be used for real medical decisions**. Always consult a licensed healthcare provider.
-
-## 🪪 License
-
-This project is licensed under the MIT License.
